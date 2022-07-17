@@ -1,0 +1,4 @@
+node_modules
+.env
+personalNotes.txt
+test.js
