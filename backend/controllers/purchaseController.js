@@ -2,24 +2,6 @@ const asyncHandler = require('express-async-handler')
 const Purchase = require('../models/purchaseModel') //Purchase is nickname for JSON Array/Schema in purchaseModel.js
 const User = require('../models/userModel')
 
-const getPurchase = asyncHandler(async (req, res) => {
-    const purchase = await Purchase.findById(req.params.id)
-    res.status(200).json(purchase)
-
-        //Check for user
-        if (!req.user) {
-            res.status(401)
-            throw new Error('User not found')
-        }
-    
-        //Make sure the user matches the purchases
-        if (purchase.user.toString() !==req.user.id) {
-            res.status(401)
-            throw new Error('User not authorized')
-        }
-}
-)
-
 //Get purchases
 //GET /api/purchases
 //Private
@@ -42,7 +24,7 @@ const setPurchases = asyncHandler(async (req, res) => {
     
     const {title, year, producer, director, length, platform, requesterName, requesterEmail, requesterDepartment, price, notes} = req.body
             
-    if (!title || !year || !producer || !director || !length || !requesterName || !requesterEmail || !price || !notes){
+    if (!title || !year || !producer || !director || !length || !platform || !requesterName || !requesterEmail || !requesterDepartment ||!price || !notes){
         res.status(400)
         throw new Error('Please fill in all the fields')
     }
@@ -136,7 +118,6 @@ const deletePurchases = asyncHandler(async (req, res) => {
 })
 
 module.exports = {
-    getPurchase,
     getPurchases,
     setPurchases,
     updatePurchase,

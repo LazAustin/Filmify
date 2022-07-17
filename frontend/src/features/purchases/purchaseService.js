@@ -29,18 +29,6 @@ const getPurchases = async (token) => {
     return response.data
 }
 
-const getPurchase = async (purchaseId, token) => {
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    }
-
-    const response = await axios.get(`${API_URL}${purchaseId}`, config)
-
-    return response.data
-}
-
 
 //Delete Purchase
 const deletePurchase = async (purchaseId, token) => {
@@ -56,14 +44,15 @@ const deletePurchase = async (purchaseId, token) => {
 }
 
 //Update Purchase
-const updatePurchase = async (purchaseId, purchaseData, token) => {
+const updatePurchase = async (purchaseData, token) => {
+    const { purchaseId, ...body } = purchaseData;
     const config = {
         headers: {
             Authorization: `Bearer ${token}`
         }
     }
 
-    const response = await axios.put(API_URL + purchaseId, purchaseData, config)
+    const response = await axios.put(API_URL + purchaseId, body, config)
 
     return response.data
 }
@@ -73,7 +62,6 @@ const purchaseService = {
     getPurchases,
     deletePurchase,
     updatePurchase,
-    getPurchase
 }
 
 export default purchaseService

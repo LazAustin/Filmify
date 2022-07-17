@@ -3,6 +3,8 @@ import {useDispatch} from 'react-redux'
 import {Grid, TextField, FormControl, Box, FormControlLabel, Radio, RadioGroup, InputAdornment, Autocomplete, Paper} from '@mui/material'
 import NumberFormat from "react-number-format";
 import {updatePurchase} from '../features/purchases/purchaseSlice'
+import {useParams} from 'react-router-dom'
+
 
 
 export const numberFormat = value =>
@@ -26,6 +28,8 @@ function EditForm({purchase}) {
     const [notes, setNotes] = useState(purchase.notes);
 
     const dispatch = useDispatch()
+    const {id} = useParams(purchase.id)
+    
 
 
     // useEffect(() => {
@@ -37,26 +41,24 @@ function EditForm({purchase}) {
 
         e.preventDefault();
 
-        const purchaseData = {
-            title,
-            producer,
-            director,
-            platform,
-            year,
-            price,
-            length,
-            requesterName,
-            requesterEmail,
-            requesterDepartment,
-            notes,
-            id: purchase._id
-        }
+        const purchaseData = ({
+           title,
+              producer,
+                director,
+                    platform,
+                        year,
+                            price,
+                                length,
+                                    requesterName,
+                                        requesterEmail,
+                                            requesterDepartment,
+                                                notes,
+                                                    purchaseId: purchase._id
+        })
 
      
-       dispatch(updatePurchase(
-           purchaseData))
+       dispatch(updatePurchase(purchaseData))
     }
-
 
     return (
         <form onSubmit={onSubmit}>
@@ -78,7 +80,7 @@ function EditForm({purchase}) {
             <Grid container sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, justifyContent:'space-evenly', my: 2}}>        
                 <TextField item id="year" label="Year" type="number" value={year} onChange={(e) => setYear(e.target.value)}/>
                 <FormControl item variant='outlined'>
-                    <NumberFormat customInput={TextField} prefix="$" thousandSeparator={true} decimalSeperator="." fixedDecimalScale={true} decimalScale={2} id="price" label="Price" placeholder="Price" InputProps={{startAdornment: <InputAdornment position="start">$</InputAdornment>,}} value={price} onChange={(e) => setPrice(e.target.value)}/>
+                    <NumberFormat customInput={TextField} prefix="$" thousandSeparator={true} decimalSeperator="." fixedDecimalScale={true} decimalScale={2} id="price" label="Price" InputProps={{startAdornment: <InputAdornment position="start">$</InputAdornment>,}} value={price} onChange={(e) => setPrice(e.target.value)}/>
                 </FormControl>
             </Grid>
             

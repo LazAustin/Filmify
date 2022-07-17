@@ -82,8 +82,12 @@ const TableForm = () => {
         headerName: 'Edit',
         width: 150,
         renderCell: (params) => {
-         // console.log(params.id)
-          return <EditButton2 purchase={params.row} />
+          console.log(params, "params")
+          console.log(params.id, "params.id")
+          console.log(params.row, "params.row")
+          return (
+          <EditButton2 purchase={params.row} />
+          )
         },
         disableClickEventBubbling: true,
     },
