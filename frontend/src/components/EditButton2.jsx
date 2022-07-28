@@ -10,7 +10,6 @@ import {FaEdit} from 'react-icons/fa'
 export default function EditButton2({purchase}) {
     
     const [openDialog1, setOpenDialog1] = useState(false); 
-    const {user} = useSelector((state) => state.auth);
 
     return (
         <>

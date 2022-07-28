@@ -3,7 +3,6 @@ import {useDispatch} from 'react-redux'
 import {Grid, TextField, FormControl, Box, FormControlLabel, Radio, RadioGroup, InputAdornment, Autocomplete, Paper} from '@mui/material'
 import NumberFormat from "react-number-format";
 import {updatePurchase} from '../features/purchases/purchaseSlice'
-import {useParams} from 'react-router-dom'
 
 
 
@@ -13,7 +12,7 @@ export const numberFormat = value =>
     currency: "USD"
   }).format(value);
 
-function EditForm({purchase}) {
+function EditForm({open, close, purchase}) {
 
     const [title, setTitle] = useState(purchase.title);
     const [producer, setProducer] = useState(purchase.producer);
@@ -28,13 +27,6 @@ function EditForm({purchase}) {
     const [notes, setNotes] = useState(purchase.notes);
 
     const dispatch = useDispatch()
-    const {id} = useParams(purchase.id)
-    
-
-
-    // useEffect(() => {
-    //     console.log(user)
-    // })
     
 
     const onSubmit = (e) => {
@@ -122,7 +114,7 @@ function EditForm({purchase}) {
             
                 <div className="form-group">
                         <button className='btn btn-block' type='submit'>
-                            Add Purchase
+                            Edit License
                         </button>
                 </div>
         </Paper>

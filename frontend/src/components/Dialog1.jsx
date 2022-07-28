@@ -40,7 +40,14 @@ const Dialog1 = ({open, close, purchase}) => {
                                 variant='outlined'
                                 color='primary'
                                 onClick={() => setOpenDialog2(true)}>
-                                    Open Child Dialog
+                                    Edit this License
+                            </Button>
+                            <br/>
+                            <Button 
+                                variant='outlined'
+                                color='primary'
+                                onClick={() => setOpenDialog2(true)}>
+                                    Go Back
                             </Button>
                         </DialogContent>
                      </div>
