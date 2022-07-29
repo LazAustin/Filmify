@@ -5,11 +5,11 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
-    "client": "cd client && npm start",
-    "build": "cd client && npm run build",
-    "install-client": "cd client && npm install",
-    "heroku-postbuild":"npm run install-client && npm run build",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "frontend": "cd frontend && npm start",
+    "build": "cd frontend && npm run build",
+    "install-frontend": "cd frontend && npm install",
+    "heroku-postbuild":"npm run install-frontend && npm run build",
+    "dev": "concurrently \"npm run server\" \"npm run frontend\""
   },
   "author": "Laz Austin",
   "license": "MIT",
