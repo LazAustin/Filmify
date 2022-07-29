@@ -4,9 +4,11 @@
   "description": "Streaming Video Purchase Electronic Library Management System",
   "main": "server.js",
   "scripts": {
-    "start": "node backend/server.js",
-    "server": "nodemon backend/server.js",
-    "client": "npm start --prefix frontend",
+    "start": "nodemon server.js",
+    "client": "cd client && npm start",
+    "build": "cd client && npm run build",
+    "install-client": "cd client && npm install",
+    "heroku-postbuild":"npm run install-client && npm run build",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Laz Austin",
@@ -19,10 +21,10 @@
     "express-async-handler": "^1.2.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.10",
-    "react-number-format": "^4.9.1"
+    "react-number-format": "^4.9.1",
+    "nodemon": "^2.0.15"
   },
   "devDependencies": {
-    "concurrently": "^7.1.0",
-    "nodemon": "^2.0.15"
+    "concurrently": "^7.1.0"    
   }
 }
