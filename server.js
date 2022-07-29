@@ -3,8 +3,9 @@ const colors = require('colors');
 const dotenv = require('dotenv').config();
 const {errorHandler} = require('./middleware/errorMiddleware')
 const connectDB = require('./config/db')
+const cors = require('cors');
 
-const port = /*process.env.PORT ||*/ 5000;
+const port = process.env.PORT || 5000;
 
 //connect to MongoDB. function brought in from config/db.js
 connectDB()
@@ -15,9 +16,13 @@ const app = express();
 //Middleware
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
+app.use(cors());
+app.use(errorHandler) //Middleware for overriding express default error handler
 
+//routes
 app.use('/api/purchases', require('./routes/purchaseRoutes'))
 app.use('/api/users', require('./routes/userRoutes'))
+
 
 //Serve Front End
 if (process.env.NODE_ENV === "production") {
@@ -28,14 +33,7 @@ if (process.env.NODE_ENV === "production") {
       res.sendFile(path.resolve(__dirname, 'frontend', 'build',         
                     'index.html' )); 
     })
-    app.get('*', (req, res)=> {     
-      res.sendFile(path.resolve(__dirname, 'frontend', 'build',         
-                    'index.html' )); 
-    })
   }
-
-//Middleware for overriding express default error handler
-app.use(errorHandler)
 
 //Minimum Express
 app.listen(port, () => console.log(`Server started on port ${port}`));
