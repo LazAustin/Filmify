@@ -21,7 +21,7 @@ function Header() {
     <header className='header'>
         <div className='logo'>
              
-            <Link to='/'>Streaming Video License Manager</Link>
+            <Link to='/'>Filmify Management System</Link>
         </div>
         <ul>
             {user ? (

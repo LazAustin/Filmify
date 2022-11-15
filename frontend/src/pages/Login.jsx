@@ -5,7 +5,7 @@ import {useNavigate} from 'react-router-dom'
 import {toast} from 'react-toastify'
 import {login, reset} from '../features/auth/authSlice'
 import Spinner from "../components/Spinner"
-import {Paper} from '@mui/material'
+import {Paper, Alert, AlertTitle} from '@mui/material'
 
 function Login() {
     const [formData, setFormData] =useState({
@@ -55,12 +55,15 @@ function Login() {
     }
   
     return (
-        <Paper elevation={3} sx={{p:2, pb: 1}}>
+        <Paper elevation={3} sx={{p:2, pb: 1}} className="login">
+        <Alert severity="info">
+            <strong>Employers:</strong> For demo purposes, please use "bob@gmail.com" for the username and "bob" for the password.
+        </Alert>
         <section className="heading">
             <h1>
                 <FaSignInAlt/> Login
             </h1>
-            <p>Login and start recording video licenses</p>
+            <p>Login and manage your streaming video licenses</p>
         </section>
 
         <section className="form">

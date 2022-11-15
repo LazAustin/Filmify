@@ -45,7 +45,7 @@ function PurchaseForm() {
     }
 
     return (
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit} className="purchaseForm">
         <Box>
             <Paper elevation={3} sx={{p:2, pb: 1}}>
             <Grid container sx={{ display: 'inline-flex', flexWrap: 'wrap', justifyContent: 'space-between', my:2}}>

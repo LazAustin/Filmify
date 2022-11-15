@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap')
 
 * {
   box-sizing: border-box;
@@ -173,6 +173,16 @@ ul {
   border-color: #000 transparent #555 transparent;
   border-radius: 50%;
   animation: spin 1.2s linear infinite;
+}
+
+.login {
+  margin: 25px auto;
+  max-width: 1080px;
+}
+
+.purchaseForm {
+  margin: auto;
+  max-width: 1080px;
 }
 
 @keyframes spin {
