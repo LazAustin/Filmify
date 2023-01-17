@@ -99,10 +99,7 @@ export default function ParentModal({purchase}) {
             Notes/Comments: <strong>{purchase.notes}</strong><br />
           </p>
           <ChildModal purchase={purchase}/>
-          <Button onClick={handleClose}
-          
-          >Cancel/Close</Button>
-
+          <Button onClick={handleClose}>Cancel/Close</Button>
         </Box>
       </Modal>
     </div>
