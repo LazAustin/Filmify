@@ -10,7 +10,7 @@ const Dialog1 = ({open, close, purchase}) => {
     const {user} = useSelector((state) => state.auth);
 
     return (
-        <>
+        <> 
             <div>
                 <Dialog2 purchase={purchase} open={openDialog2} onClose={() => setOpenDialog2(false)} />
                 <Dialog 

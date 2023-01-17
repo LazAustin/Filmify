@@ -24,36 +24,36 @@ const style = {
   pb: 3,
 };
 
-function ChildModal() {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => {
+// function ChildModal() {
+//   const [open, setOpen] = useState(false);
+//   const handleOpen = () => {
   
-    setOpen(true);
-}
-  const handleClose = () => {
-    setOpen(false);
-  };
+//     setOpen(true);
+// }
+//   const handleClose = () => {
+//     setOpen(false);
+//   };
 
-  return (
-    <>
-      <Button onClick={handleOpen}>Edit this License</Button>
-      <Modal
-        hideBackdrop
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="child-modal-title"
-        aria-describedby="child-modal-description"
-      >
-        <Box sx={{ ...style, width: 200 }}>
-          <h2 id="child-modal-title">Edit this license below</h2>
-          <EditForm />
-          <Button onClick={handleClose}>Submit Edit</Button>
-          <Button onClick={handleClose}>Cancel</Button>
-        </Box>
-      </Modal>
-    </>
-  );
-}
+//   return (
+//     <>
+//       <Button onClick={handleOpen}>Edit this License</Button>
+//       <Modal
+//         hideBackdrop
+//         open={open}
+//         onClose={handleClose}
+//         aria-labelledby="child-modal-title"
+//         aria-describedby="child-modal-description"
+//       >
+//         {/* <Box sx={{ ...style, width: 200 }}>
+//           <h2 id="child-modal-title">Edit this license below</h2>
+//           <EditForm />
+//           <Button onClick={handleClose}>Submit Edit</Button>
+//           <Button onClick={handleClose}>Cancel</Button>
+//         </Box> */}
+//       </Modal>
+//     </>
+//   );
+// }
 
 const EditButton = (purchase) => {
   
@@ -103,7 +103,6 @@ const EditButton = (purchase) => {
             <FaEdit />
         </Button>
       <Modal
-        
         open={open}
         onClose={handleClose}
         // aria-labelledby="parent-modal-title"
@@ -124,7 +123,7 @@ const EditButton = (purchase) => {
             Requester Department: <strong>{purchase.requesterDepartment}</strong><br />
             Notes/Comments: <strong>{purchase.notes}</strong><br />
           </p>
-          <ChildModal />
+          {/* <ChildModal /> */}
         </Box>
       </Modal>
     </div>

@@ -41,6 +41,13 @@ function Header() {
                     </IconButton>
                 </li>
                 <li>
+                    <IconButton>
+                        <Link to='/charts'>
+                            Charts
+                        </Link>
+                    </IconButton>
+                </li>
+                <li>
                     <button className='btn' onClick={onLogout}>
                         <FaSignOutAlt/> Logout
                     </button>

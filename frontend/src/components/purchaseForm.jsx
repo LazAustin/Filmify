@@ -1,8 +1,10 @@
-import {useState} from 'react'
-import {useDispatch} from 'react-redux'
-import {Grid, TextField, FormControl, Box, FormControlLabel, Radio, RadioGroup, InputAdornment, Autocomplete, Paper} from '@mui/material'
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom';
+import {Grid, TextField, FormControl, Box, FormControlLabel, Radio, RadioGroup, InputAdornment, Autocomplete, Paper, stepConnectorClasses} from '@mui/material'
 import NumberFormat from "react-number-format";
-import {createPurchase} from '../features/purchases/purchaseSlice'
+import { createPurchase } from '../features/purchases/purchaseSlice' 
+import { toast } from 'react-toastify';
 
 export const numberFormat = value =>
   new Intl.NumberFormat("en-US", {
@@ -10,7 +12,7 @@ export const numberFormat = value =>
     currency: "USD"
   }).format(value);
 
-function PurchaseForm() {
+ const PurchaseForm = () => {
 
     const [title, setTitle] = useState("");
     const [producer, setProducer] = useState("");
@@ -19,29 +21,54 @@ function PurchaseForm() {
     const [year, setYear] = useState("");
     const [price, setPrice] = useState("");
     const [length, setLength] = useState("");
+    const [customLength, setCustomLength] = useState("")
+    const [customRange, setCustomRange] = useState(false)
+    const [startDate, setStartDate] = useState("")
+    const [endDate, setEndDate] = useState("")
     const [requesterName, setRequesterName] = useState("");
     const [requesterEmail, setRequesterEmail] = useState("");
     const [requesterDepartment, setRequesterDepartment] = useState("");
     const [notes, setNotes] = useState("");
 
-    const dispatch = useDispatch()
+    const toggle = () => {
+        setCustomRange(!customRange);
+    }
 
-    
+    const reset = () => {
+        customRange && toggle();
+    }
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
     const onSubmit = (e) => {
-    
+
         e.preventDefault()
+
+        let submittedLength = ""
+
+        if (length === "customRange") {
+            submittedLength = customLength;
+        } else {
+            submittedLength = length
+        }
+
+        console.log(submittedLength)
      
-        dispatch(createPurchase({title, producer, director, platform, year, price, length, requesterName, requesterEmail, requesterDepartment, notes}))
-        setTitle('')
-        setProducer('')
-        setDirector('')
-        setPlatform('')
-        setPrice('')
-        setLength('')
-        setRequesterName('')
-        setRequesterEmail('')
-        setRequesterDepartment('')
-        setNotes('')
+        dispatch(createPurchase({title, producer, director, platform, year, price, length: submittedLength, startDate, endDate, requesterName, requesterEmail, requesterDepartment, notes}))
+        // setTitle('')
+        // setProducer('')
+        // setDirector('')
+        // setPlatform('')
+        // setPrice('')
+        // setLength('')
+        // setRequesterName('')
+        // setRequesterEmail('')
+        // setRequesterDepartment('')
+        // setNotes('')
+
+        toast.success("You have successfully added a new license to your database.")
+        navigate("/table")
     }
 
     return (
@@ -70,24 +97,27 @@ function PurchaseForm() {
             
             <Grid container sx={{flexWrap: 'wrap', flexDirection: { xs: 'column', md: 'row' }, justifyContent: 'space-between', my:2}}>
                 <Grid item id="radioId"sx={{flexGrow: '4', textAlign: 'left'}}><h3>Length of License:</h3></Grid>
-                <RadioGroup item sx={{flexGrow: '8'}}row aria-labelledby="demo-row-radio-buttons-group-label" defaultValue="1year" name="licenseRadio" value={length} onChange={(e) => setLength(e.target.value)}>
-                    <FormControlLabel default value="1year" control={<Radio />} label="1 Year" />
-                    <FormControlLabel value="3year" control={<Radio />} label="3 Year" />
-                    <FormControlLabel value="5year" control={<Radio />} label="5 Year" />
-                    <FormControlLabel value="perpetual" control={<Radio />} label="Perpetual"/>
-                    <FormControlLabel value="customRange" control={<Radio />} label="Custom Range"/>
+                <RadioGroup item sx={{flexGrow: '8'}} row aria-labelledby="demo-row-radio-buttons-group-label" defaultValue="1 year" name="licenseRadio" value={length} onChange={(e) => setLength(e.target.value)}>
+                    <FormControlLabel default value="1 year" control={<Radio />} label="1 Year" onChange={reset}/>
+                    <FormControlLabel value="3 years" control={<Radio />} label="3 Year" onChange={reset}/>
+                    <FormControlLabel value="5 years" control={<Radio />} label="5 Year" onChange={reset}/>
+                    <FormControlLabel value="perpetual" control={<Radio />} label="Perpetual" onChange={reset}/>
+                    <FormControlLabel value="customRange" control={<Radio />} label="Custom Length" onChange={toggle}/>
                 </RadioGroup>
             </Grid>
 
-             
-            <Grid container sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, justifyContent: 'space-between', margin:'10px auto'}}>     
-                <Grid item id="radioId"><h3>Custom License Range</h3></Grid>
-                <Grid item id="radioId"><h3>Start Date:</h3></Grid>
-                <TextField item id="licenseStart" type="date" disabled helperText="Click Custom Range to enable this"/>
-                <Grid item id="radioId"><h3>End Date:</h3></Grid>
-                <TextField item id="licenseEnd" type="date" disabled helperText="Click Custom Range to to enable this"/>   
+            <Grid>
+                    <TextField id='customRange' label="Custom Range" type="text" value={customLength} onChange={(e) => setCustomLength(e.target.value)} {...(!customRange && {disabled: true})} {...(!customRange && {helperText: "Click Custom Length to to enable this"})} />
             </Grid>
 
+            <Grid container sx={{ flexDirection: { xs: 'column', md: 'row' }, justifyContent: 'space-between', margin:'10px auto'}}>     
+                <Grid item id="radioId"><h3>License Start and End Dates</h3></Grid>
+                <Grid item id="radioId"><h3>Start Date:</h3></Grid>
+                <TextField item id="licenseStart" type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)}/>
+                <Grid item id="radioId"><h3>End Date:</h3></Grid>
+                <TextField item id="licenseEnd" type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)}/>   
+            </Grid>
+            
             <Box sx={{border: 1, borderRadius: 1, borderColor: 'grey.500', px: 2, pb: 2, mb: '10px'}}>
                 <h4>Faculty or Staff Member Who Requested the Film</h4>
                 <Grid container sx={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between'}}>              

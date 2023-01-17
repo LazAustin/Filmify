@@ -1,8 +1,9 @@
-import {useState} from 'react'
+import { useState } from 'react'
 import {useDispatch} from 'react-redux'
 import {Grid, TextField, FormControl, Box, FormControlLabel, Radio, RadioGroup, InputAdornment, Autocomplete, Paper} from '@mui/material'
 import NumberFormat from "react-number-format";
-import {updatePurchase} from '../features/purchases/purchaseSlice'
+import { updatePurchase } from '../features/purchases/purchaseSlice'
+import { toast } from 'react-toastify'
 
 
 
@@ -12,7 +13,7 @@ export const numberFormat = value =>
     currency: "USD"
   }).format(value);
 
-function EditForm({open, close, purchase}) {
+function EditForm({close, purchase}) {
 
     const [title, setTitle] = useState(purchase.title);
     const [producer, setProducer] = useState(purchase.producer);
@@ -21,35 +22,57 @@ function EditForm({open, close, purchase}) {
     const [year, setYear] = useState(purchase.year);
     const [price, setPrice] = useState(purchase.price);
     const [length, setLength] = useState(purchase.length);
+    const [customLength, setCustomLength] = useState("")
+    const [customRange, setCustomRange] = useState(false)
+    const [startDate, setStartDate] = useState("")
+    const [endDate, setEndDate] = useState("")
     const [requesterName, setRequesterName] = useState(purchase.requesterName);
     const [requesterEmail, setRequesterEmail] = useState(purchase.requesterEmail);
     const [requesterDepartment, setRequesterDepartment] = useState(purchase.requesterDepartment);
     const [notes, setNotes] = useState(purchase.notes);
 
+    const toggle = () => {
+        setCustomRange(!customRange);
+    }
+
+    const reset = () => {
+        customRange && toggle();
+    }
+
     const dispatch = useDispatch()
-    
 
     const onSubmit = (e) => {
 
         e.preventDefault();
 
+        let submittedLength = ""
+
+        if (length === "customRange") {
+            submittedLength = customLength;
+        } else {
+            submittedLength = length
+        }
+
         const purchaseData = ({
-           title,
-              producer,
-                director,
-                    platform,
-                        year,
-                            price,
-                                length,
-                                    requesterName,
-                                        requesterEmail,
-                                            requesterDepartment,
-                                                notes,
-                                                    purchaseId: purchase._id
+            title,
+            producer,
+            director,
+            platform,
+            year,
+            price,
+            length: submittedLength,
+            startDate,
+            endDate,
+            requesterName,
+            requesterEmail,
+            requesterDepartment,
+            notes,
+            purchaseId: purchase._id
         })
 
-     
        dispatch(updatePurchase(purchaseData))
+       close();
+       toast.success("License updated successfully. Please verify your changes.")
     }
 
     return (
@@ -79,21 +102,21 @@ function EditForm({open, close, purchase}) {
             <Grid container sx={{flexWrap: 'wrap', flexDirection: { xs: 'column', md: 'row' }, justifyContent: 'space-between', my:2}}>
                 <Grid item id="radioId"sx={{flexGrow: '4', textAlign: 'left'}}><h3>Length of License:</h3></Grid>
                 <RadioGroup item sx={{flexGrow: '8'}}row aria-labelledby="demo-row-radio-buttons-group-label" defaultValue="1year" name="licenseRadio" value={length} onChange={(e) => setLength(e.target.value)}>
-                    <FormControlLabel default value="1year" control={<Radio />} label="1 Year" />
-                    <FormControlLabel value="3year" control={<Radio />} label="3 Year" />
-                    <FormControlLabel value="5year" control={<Radio />} label="5 Year" />
-                    <FormControlLabel value="perpetual" control={<Radio />} label="Perpetual"/>
-                    <FormControlLabel value="customRange" control={<Radio />} label="Custom Range"/>
+                    <FormControlLabel default value="1 year" control={<Radio />} label="1 Year" onChange={reset}/>
+                    <FormControlLabel value="3 years" control={<Radio />} label="3 Year" onChange={reset}/>
+                    <FormControlLabel value="5 years" control={<Radio />} label="5 Year" onChange={reset}/>
+                    <FormControlLabel value="perpetual" control={<Radio />} label="Perpetual" onChange={reset}/>
+                    <FormControlLabel value="customRange" control={<Radio />} label="Custom Range" onChange={toggle}/>
+                    <TextField id='customRange' label="Custom Range" type="text" value={customLength} onChange={(e) => setCustomLength(e.target.value)} {...(!customRange && {disabled: true})} {...(!customRange && {helperText: "Click Custom Length to to enable this"})} />
                 </RadioGroup>
             </Grid>
 
-             
-            <Grid container sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, justifyContent: 'space-between', margin:'10px auto'}}>     
-                <Grid item id="radioId"><h3>Custom License Range</h3></Grid>
+            <Grid container sx={{ flexDirection: { xs: 'column', md: 'row' }, justifyContent: 'space-between', margin:'10px auto'}}>     
+                <Grid item id="radioId"><h3>License Start and End Dates</h3></Grid>
                 <Grid item id="radioId"><h3>Start Date:</h3></Grid>
-                <TextField item id="licenseStart" type="date" disabled helperText="Click Custom Range to enable this"/>
+                <TextField item id="licenseStart" type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)}/>
                 <Grid item id="radioId"><h3>End Date:</h3></Grid>
-                <TextField item id="licenseEnd" type="date" disabled helperText="Click Custom Range to to enable this"/>   
+                <TextField item id="licenseEnd" type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)}/>   
             </Grid>
 
             <Box sx={{border: 1, borderRadius: 1, borderColor: 'grey.500', px: 2, pb: 2, mb: '10px'}}>
@@ -115,6 +138,9 @@ function EditForm({open, close, purchase}) {
                 <div className="form-group">
                         <button className='btn btn-block' type='submit'>
                             Edit License
+                        </button>
+                        <button className='btn btn-block' onClick={close}>
+                            Cancel
                         </button>
                 </div>
         </Paper>

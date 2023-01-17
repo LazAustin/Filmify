@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Dialog1 from './Dialog1'
 import {FaEdit} from 'react-icons/fa'
+import ParentModal from "./EditModal";
 
 
 export default function EditButton2({purchase}) {
@@ -15,8 +16,7 @@ export default function EditButton2({purchase}) {
         <>
             <div>
                 <div>
-                
-                    <Dialog1 purchase={purchase} open={openDialog1} onClose={() => setOpenDialog1(false)} />
+                    <ParentModal purchase={purchase} open={openDialog1} onClose={() => setOpenDialog1(false)} />
                 </div>
                 <Button className="edit"
                 variant="contained"

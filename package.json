@@ -23,7 +23,8 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.10",
     "nodemon": "^2.0.15",
-    "react-number-format": "^4.9.1"
+    "react-number-format": "^4.9.1",
+    "recharts": "^2.2.0"
   },
   "devDependencies": {
     "concurrently": "^7.1.0"
